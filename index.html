@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Happy Birthday Muxxy Ji! 🎂✨</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="bday.css">
+</head>
+<body data-theme="light">
+
+  <div class="aurora"><span></span><span></span><span></span><span></span></div>
+  <div id="particles"></div>
+
+  <div class="balloon b1"></div>
+  <div class="balloon b2"></div>
+  <div class="balloon b3"></div>
+  <div class="balloon b4"></div>
+
+  <!-- Top Controls (Sound & Theme Toggle) -->
+  <div class="top-controls">
+    <button class="icon-btn" id="musicToggle" aria-label="Toggle background music" title="Toggle Music">🎵</button>
+    <button class="icon-btn theme-toggle" id="themeToggle" aria-label="Toggle light and dark mode" title="Toggle Theme">🌙</button>
+  </div>
+
+  <!-- Progress Bar Dots -->
+  <div class="progress" id="progress"></div>
+
+  <div class="stage" id="stage">
+
+    <!-- Slide 1 -->
+    <section class="slide active" data-index="0">
+      <div class="eyebrow">💗 POV 💗</div>
+      <h1>It's your <em>favourite person's</em> birthday</h1>
+      <p class="sub">and Sanki had to make it extra special for Muxxy Ji 🌸</p>
+    </section>
+
+    <!-- Slide 2 -->
+    <section class="slide" data-index="1">
+      <div class="orbit">
+        <div class="ring r1"></div>
+        <div class="ring r2"></div>
+        <div class="ring r3"></div>
+        <div class="bloom">🌸</div>
+      </div>
+      <h1>Muxxy Ji, you are literally</h1>
+      <p class="quote">the universe's favourite creation ✨</p>
+    </section>
+
+    <!-- Slide 3 -->
+    <section class="slide" data-index="2">
+      <h1 style="font-size:clamp(24px,5vw,36px);">Why you're amazing, Muxxy Ji</h1>
+      <p class="sub" style="margin-top:6px;">let me count the ways 🎀</p>
+      <div class="reasons">
+        <div class="reason"><span class="ic">🌟</span>Your smile literally lights up every single room</div>
+        <div class="reason"><span class="ic">💞</span>The way you care about people is truly unmatched</div>
+        <div class="reason"><span class="ic">✨</span>You make even ordinary moments feel pure magical</div>
+        <div class="reason"><span class="ic">🎀</span>The world is genuinely so much brighter with you in it</div>
+      </div>
+    </section>
+
+    <!-- Slide 4 -->
+    <section class="slide" data-index="3">
+      <div class="cake-wrap">
+        <div class="candles">
+          <div class="candle c1"><div class="flame" data-flame></div><div class="puff" data-puff>💨</div></div>
+          <div class="candle c2"><div class="flame" data-flame></div><div class="puff" data-puff>💨</div></div>
+          <div class="candle c3"><div class="flame" data-flame></div><div class="puff" data-puff>💨</div></div>
+        </div>
+        <div class="cake">
+          <div class="tier tier1"></div>
+          <div class="tier tier2"></div>
+          <div class="tier tier3"></div>
+        </div>
+      </div>
+      <div class="wish-cta">Make a wish, Muxxy Ji 🌙</div>
+      <div class="hint">✨ tap anywhere to blow them out</div>
+    </section>
+
+    <!-- Slide 5 -->
+    <section class="slide" data-index="4">
+      <div class="eyebrow">🎉 HAPPY HAPPY BIRTHDAY 🎉</div>
+      <h1>Happy Birthday <em>Muxxy Ji!</em> 🎂</h1>
+      <p class="quote">"May this year bring you endless happiness, boundless success, and everything your heart desires — with all the love, laughter, and adventures in the world! 🌸✨"</p>
+      <div class="hearts">
+        <span>💗</span><span>💕</span><span>🎀</span><span>💖</span><span>💗</span>
+      </div>
+      <div class="credit-badge">
+        made with <b>♥</b> for Muxxy Ji from <span class="sender">SANKI</span>
+      </div>
+      <button class="replay" id="replayBtn">↺ Play again</button>
+      <div class="burst" id="burst"></div>
+    </section>
+
+  </div>
+
+  <div class="tap-hint" id="tapHint">tap anywhere →</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  const progressEl = document.getElementById('progress');
+  const stage = document.getElementById('stage');
+  const tapHint = document.getElementById('tapHint');
+  const themeToggle = document.getElementById('themeToggle');
+  const musicToggle = document.getElementById('musicToggle');
+  let current = 0;
+  let candlesBlown = false;
+  let finaleFired = false;
+
+  /* ---------- Web Audio Synthesizer (Music Box & Sound FX) ---------- */
+  let audioCtx = null;
+  let isMusicPlaying = false;
+  let musicTimer = null;
+  let currentNoteIndex = 0;
+
+  function initAudio() {
+    if (!audioCtx) {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (AudioContext) {
+        audioCtx = new AudioContext();
+      }
+    }
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+  }
+
+  // Happy Birthday Melody (Notes and durations)
+  // C4, C4, D4, C4, F4, E4 ...
+  const melody = [
+    { note: 261.63, dur: 0.35, pause: 0.1 }, // C4
+    { note: 261.63, dur: 0.25, pause: 0.05 }, // C4
+    { note: 293.66, dur: 0.6, pause: 0.1 },  // D4
+    { note: 261.63, dur: 0.6, pause: 0.1 },  // C4
+    { note: 349.23, dur: 0.6, pause: 0.1 },  // F4
+    { note: 329.63, dur: 1.0, pause: 0.25 }, // E4
+
+    { note: 261.63, dur: 0.35, pause: 0.1 }, // C4
+    { note: 261.63, dur: 0.25, pause: 0.05 }, // C4
+    { note: 293.66, dur: 0.6, pause: 0.1 },  // D4
+    { note: 261.63, dur: 0.6, pause: 0.1 },  // C4
+    { note: 392.00, dur: 0.6, pause: 0.1 },  // G4
+    { note: 349.23, dur: 1.0, pause: 0.25 }, // F4
+
+    { note: 261.63, dur: 0.35, pause: 0.1 }, // C4
+    { note: 261.63, dur: 0.25, pause: 0.05 }, // C4
+    { note: 523.25, dur: 0.6, pause: 0.1 },  // C5
+    { note: 440.00, dur: 0.6, pause: 0.1 },  // A4
+    { note: 349.23, dur: 0.6, pause: 0.1 },  // F4
+    { note: 329.63, dur: 0.6, pause: 0.1 },  // E4
+    { note: 293.66, dur: 0.8, pause: 0.25 }, // D4
+
+    { note: 466.16, dur: 0.35, pause: 0.1 }, // Bb4
+    { note: 466.16, dur: 0.25, pause: 0.05 }, // Bb4
+    { note: 440.00, dur: 0.6, pause: 0.1 },  // A4
+    { note: 349.23, dur: 0.6, pause: 0.1 },  // F4
+    { note: 392.00, dur: 0.6, pause: 0.1 },  // G4
+    { note: 349.23, dur: 1.3, pause: 0.5 }   // F4
+  ];
+
+  function playTone(freq, duration, type = 'triangle', maxGain = 0.12) {
+    if (!audioCtx) return;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+    gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(maxGain, audioCtx.currentTime + 0.04);
+    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    osc.start();
+    osc.stop(audioCtx.currentTime + duration + 0.05);
+  }
+
+  function playNextMelodyNote() {
+    if (!isMusicPlaying) return;
+    const item = melody[currentNoteIndex];
+    playTone(item.note, item.dur, 'sine', 0.15);
+    // Add harmonic chime overtone for sweet music-box feel
+    playTone(item.note * 2, item.dur * 0.7, 'triangle', 0.05);
+
+    currentNoteIndex = (currentNoteIndex + 1) % melody.length;
+    const totalWait = (item.dur + item.pause) * 1000;
+    musicTimer = setTimeout(playNextMelodyNote, totalWait);
+  }
+
+  function toggleMusic() {
+    initAudio();
+    if (isMusicPlaying) {
+      isMusicPlaying = false;
+      clearTimeout(musicTimer);
+      musicToggle.textContent = '🔇';
+      musicToggle.style.opacity = '0.7';
+    } else {
+      isMusicPlaying = true;
+      musicToggle.textContent = '🎵';
+      musicToggle.style.opacity = '1';
+      playNextMelodyNote();
+    }
+  }
+
+  musicToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleMusic();
+  });
+
+  // Candle puff sound effect
+  function playPuffSound() {
+    if (!audioCtx) return;
+    try {
+      const bufferSize = audioCtx.sampleRate * 0.25;
+      const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.25));
+      }
+      const noise = audioCtx.createBufferSource();
+      noise.buffer = buffer;
+
+      const filter = audioCtx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(600, audioCtx.currentTime);
+      filter.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.25);
+
+      const gain = audioCtx.createGain();
+      gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
+
+      noise.connect(filter);
+      filter.connect(gain);
+      gain.connect(audioCtx.destination);
+      noise.start();
+    } catch(e) {}
+  }
+
+  // Celebration chime for confetti
+  function playCelebrationChimes() {
+    if (!audioCtx) return;
+    const notes = [523.25, 659.25, 783.99, 1046.50];
+    notes.forEach((freq, idx) => {
+      setTimeout(() => {
+        playTone(freq, 0.45, 'triangle', 0.1);
+      }, idx * 120);
+    });
+  }
+
+  /* ---------- Progress Dots ---------- */
+  for (let i = 0; i < total; i++) {
+    const dot = document.createElement('i');
+    progressEl.appendChild(dot);
+  }
+  function updateProgress() {
+    [...progressEl.children].forEach((d, i) => {
+      d.classList.toggle('active', i === current);
+      d.classList.toggle('done', i < current);
+    });
+  }
+
+  /* ---------- Slide Navigation ---------- */
+  function goTo(index) {
+    if (index < 0 || index >= total) return;
+    slides[current].classList.remove('active');
+    current = index;
+    slides[current].classList.add('active');
+    updateProgress();
+    tapHint.style.display = current === total - 1 ? 'none' : 'flex';
+    if (current === 3) { resetCandles(); }
+    if (current === total - 1 && !finaleFired) {
+      fireConfetti();
+      playCelebrationChimes();
+      finaleFired = true;
+    }
+  }
+
+  function next() {
+    initAudio();
+    if (!isMusicPlaying && current === 0) {
+      // Gentle auto-start prompt on first tap
+      toggleMusic();
+    }
+
+    if (current === 3 && !candlesBlown) {
+      blowCandles();
+      return;
+    }
+    if (current < total - 1) { goTo(current + 1); }
+  }
+
+  function resetCandles() {
+    candlesBlown = false;
+    document.querySelectorAll('[data-flame]').forEach(f => f.classList.remove('out'));
+    document.querySelectorAll('[data-puff]').forEach(p => p.classList.remove('go'));
+  }
+
+  function blowCandles() {
+    candlesBlown = true;
+    const flames = document.querySelectorAll('[data-flame]');
+    const puffs = document.querySelectorAll('[data-puff]');
+    flames.forEach((f, i) => {
+      setTimeout(() => {
+        f.classList.add('out');
+        puffs[i].classList.add('go');
+        playPuffSound();
+      }, i * 160);
+    });
+    setTimeout(() => goTo(current + 1), 850);
+  }
+
+  stage.addEventListener('click', (e) => {
+    spawnTapSparkle(e.clientX, e.clientY);
+    next();
+  });
+
+  // Touch support for smooth mobile tapping
+  stage.addEventListener('touchstart', (e) => {
+    if (e.touches && e.touches[0]) {
+      spawnTapSparkle(e.touches[0].clientX, e.touches[0].clientY);
+    }
+  }, { passive: true });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') next();
+    if (e.key === 'ArrowLeft') goTo(current - 1);
+  });
+
+  document.getElementById('replayBtn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    finaleFired = false;
+    document.getElementById('burst').innerHTML = '';
+    goTo(0);
+  });
+
+  /* ---------- Theme Toggle ---------- */
+  themeToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isDark = document.body.getAttribute('data-theme') === 'dark';
+    document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    themeToggle.textContent = isDark ? '🌙' : '☀️';
+    themeToggle.classList.remove('spin');
+    void themeToggle.offsetWidth;
+    themeToggle.classList.add('spin');
+  });
+
+  /* ---------- Ambient Floating Stickers ---------- */
+  const particleWrap = document.getElementById('particles');
+  const stickerEmojis = ['✨', '🌸', '💗', '⭐', '🎀', '💫', '🧁', '💖'];
+  function spawnParticle() {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.textContent = stickerEmojis[Math.floor(Math.random() * stickerEmojis.length)];
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.fontSize = (12 + Math.random() * 12) + 'px';
+    const dur = 9 + Math.random() * 9;
+    p.style.animationDuration = dur + 's';
+    particleWrap.appendChild(p);
+    setTimeout(() => p.remove(), dur * 1000);
+  }
+  setInterval(spawnParticle, 500);
+  for (let i = 0; i < 10; i++) setTimeout(spawnParticle, i * 260);
+
+  /* ---------- Confetti Burst For Finale ---------- */
+  const confettiEmojis = ['💗', '🎀', '✨', '🌸', '⭐', '💕', '🎂', '🎉', '💖'];
+  function fireConfetti() {
+    const burst = document.getElementById('burst');
+    for (let i = 0; i < 55; i++) {
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      c.textContent = confettiEmojis[Math.floor(Math.random() * confettiEmojis.length)];
+      c.style.left = Math.random() * 100 + '%';
+      c.style.fontSize = (14 + Math.random() * 14) + 'px';
+      c.style.animationDelay = (Math.random() * 0.7) + 's';
+      c.style.animationDuration = (2.5 + Math.random() * 1.3) + 's';
+      burst.appendChild(c);
+      setTimeout(() => c.remove(), 4500);
+    }
+  }
+
+  /* ---------- Tap Sparkle Trail ---------- */
+  const sparkleEmojis = ['✨', '💫', '⭐', '🎀', '💖'];
+  function spawnTapSparkle(x, y) {
+    if (!x || !y) return;
+    for (let i = 0; i < 6; i++) {
+      const s = document.createElement('div');
+      s.className = 'sparkle-burst';
+      s.textContent = sparkleEmojis[Math.floor(Math.random() * sparkleEmojis.length)];
+      s.style.left = x + 'px';
+      s.style.top = y + 'px';
+      const angle = (Math.PI * 2 * i) / 6 + Math.random() * 0.5;
+      const dist = 40 + Math.random() * 30;
+      const tx = Math.cos(angle) * dist;
+      const ty = Math.sin(angle) * dist;
+      s.style.setProperty('--tx', `translate(${tx}px, ${ty}px)`);
+      document.body.appendChild(s);
+      setTimeout(() => s.remove(), 750);
+    }
+  }
+
+  updateProgress();
+</script>
+
+</body>
+</html>
