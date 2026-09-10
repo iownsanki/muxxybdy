@@ -1,237 +1,1092 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Happy Birthday Muxxy Ji! 🎂 Special Tribute from Sanki</title>
-  
-  <!-- Preconnect & Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="bday.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Happy Birthday Muxxy Ji! 🎂 Special Tribute from Sanki</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --serif: 'Fredoka', sans-serif;
+  --sans: 'Quicksand', sans-serif;
+
+  /* Theme: Light Peach & Pink Aura */
+  --bg-a: #fff6eb;
+  --bg-b: #ffe5ef;
+  --bg-c: #eee2ff;
+  --card: rgba(255, 255, 255, 0.82);
+  --card-border: rgba(255, 255, 255, 0.95);
+  --card-shadow: rgba(255, 107, 149, 0.22);
+  --ink: #48325a;
+  --ink-dim: #88729c;
+  --pink: #ff6b95;
+  --lavender: #b08fe6;
+  --gold: #f59e0b;
+  --mint: #10b981;
+  --dot-off: rgba(72, 50, 90, 0.15);
+}
+
+[data-theme="dark"] {
+  --bg-a: #090710;
+  --bg-b: #180f27;
+  --bg-c: #261239;
+  --card: rgba(36, 25, 52, 0.82);
+  --card-border: rgba(255, 255, 255, 0.14);
+  --card-shadow: rgba(0, 0, 0, 0.55);
+  --ink: #f8f4ff;
+  --ink-dim: #bdaecf;
+  --pink: #ff659c;
+  --lavender: #c4b5fd;
+  --gold: #fbbf24;
+  --mint: #34d399;
+  --dot-off: rgba(255, 255, 255, 0.2);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--sans);
+  font-weight: 600;
+  background: linear-gradient(135deg, var(--bg-a) 0%, var(--bg-b) 50%, var(--bg-c) 100%);
+  background-size: 200% 200%;
+  animation: gradientMotion 16s ease infinite;
+  color: var(--ink);
+  user-select: none;
+  position: relative;
+  transition: background 0.6s ease, color 0.4s ease;
+}
+
+@keyframes gradientMotion {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Background Aurora */
+.aurora {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  contain: strict;
+  z-index: 1;
+  pointer-events: none;
+}
+.aurora span {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.4;
+  animation: drift 14s ease-in-out infinite alternate;
+}
+.aurora span:nth-child(1) { width: 320px; height: 320px; background: var(--pink); top: -80px; left: -60px; }
+.aurora span:nth-child(2) { width: 280px; height: 280px; background: var(--mint); bottom: -100px; right: -60px; animation-delay: -5s; opacity: 0.25; }
+.aurora span:nth-child(3) { width: 250px; height: 250px; background: var(--gold); top: 35%; right: 5%; animation-delay: -9s; opacity: 0.25; }
+.aurora span:nth-child(4) { width: 240px; height: 240px; background: var(--lavender); bottom: 15%; left: 5%; animation-delay: -3s; opacity: 0.25; }
+
+@keyframes drift {
+  0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  100% { transform: translate(30px, -40px) scale(1.2) rotate(20deg); }
+}
+
+/* Floating Particles */
+#particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+  contain: strict;
+}
+.particle {
+  position: absolute;
+  bottom: -30px;
+  opacity: 0;
+  animation: riseWiggle linear infinite;
+  filter: drop-shadow(0 0 6px var(--card-shadow));
+}
+@keyframes riseWiggle {
+  0% { transform: translateY(0) translateX(0) rotate(0deg) scale(0.7); opacity: 0; }
+  8% { opacity: 0.9; }
+  25% { transform: translateY(-25vh) translateX(16px) rotate(15deg) scale(1); }
+  50% { transform: translateY(-50vh) translateX(-16px) rotate(-10deg) scale(1.05); }
+  75% { transform: translateY(-78vh) translateX(12px) rotate(12deg) scale(0.95); }
+  92% { opacity: 0.7; }
+  100% { transform: translateY(-112vh) translateX(0) rotate(0deg) scale(0.6); opacity: 0; }
+}
+
+/* Fullscreen Canvas for Fireworks */
+#fireworksCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  z-index: 4;
+  pointer-events: none;
+  contain: strict;
+}
+
+/* Top Badge & Controls */
+.top-pill {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  z-index: 30;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--card-border);
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--ink);
+  box-shadow: 0 4px 14px var(--card-shadow);
+}
+.top-pill .live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--pink);
+  box-shadow: 0 0 8px var(--pink);
+  animation: pulseDot 2s infinite;
+}
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.6; }
+}
+
+.top-actions {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  z-index: 30;
+  display: flex;
+  gap: 8px;
+}
+.icon-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px var(--card-shadow);
+  transition: transform 0.25s ease;
+  color: var(--ink);
+}
+.icon-btn:active { transform: scale(0.85); }
+
+/* Progress Dots */
+.progress-wrap {
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 7px;
+  z-index: 25;
+  pointer-events: none;
+}
+.progress-wrap i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50px;
+  background: var(--dot-off);
+  transition: all 0.4s cubic-bezier(.34, 1.56, .64, 1);
+}
+.progress-wrap i.active {
+  width: 26px;
+  background: var(--pink);
+  box-shadow: 0 0 10px var(--pink);
+}
+.progress-wrap i.done {
+  background: var(--gold);
+}
+
+/* Stage & Slides */
+.stage {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 70px 18px 55px;
+  box-sizing: border-box;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(30px) scale(0.95);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(.34, 1.56, .64, 1), visibility 0.5s;
+  pointer-events: none;
+}
+.slide.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* Glass Card Box */
+.glass-box {
+  background: var(--card);
+  border: 1.5px solid var(--card-border);
+  border-radius: 26px;
+  padding: 24px 18px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 16px 36px var(--card-shadow);
+  width: 100%;
+  max-width: 360px;
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+
+.eyebrow {
+  font-family: var(--serif);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--pink);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+h1, h2 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(22px, 5.5vw, 30px);
+  line-height: 1.25;
+  color: var(--ink);
+  word-wrap: break-word;
+}
+
+.accent {
+  font-style: normal;
+  background: linear-gradient(95deg, var(--pink), var(--gold), var(--lavender));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shine 4s linear infinite;
+}
+@keyframes shine { to { background-position: 200% center; } }
+
+.sub {
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--ink-dim);
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+/* Gift Art */
+.gift-art {
+  font-size: 58px;
+  margin: 6px auto 10px;
+  display: inline-block;
+  animation: giftBob 3s ease-in-out infinite;
+  filter: drop-shadow(0 8px 16px var(--card-shadow));
+  cursor: pointer;
+}
+@keyframes giftBob {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(6deg) scale(1.08); }
+}
+
+.badge-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: rgba(176, 143, 230, 0.15);
+  border: 1px solid rgba(176, 143, 230, 0.3);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--lavender);
+}
+.badge-tag strong { color: var(--pink); }
+
+.cta-btn {
+  margin-top: 14px;
+  background: linear-gradient(135deg, var(--pink), #ff5c8a);
+  color: #fff;
+  border: none;
+  padding: 11px 24px;
+  border-radius: 50px;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 13.5px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(255, 107, 149, 0.38);
+  transition: transform 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.cta-btn:active { transform: scale(0.94); }
+
+/* Slide 1: Orbit */
+.orbit {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+}
+.ring {
+  position: absolute;
+  border: 1.5px dashed var(--card-border);
+  border-radius: 50%;
+  animation: spin 12s linear infinite;
+}
+.ring.r1 { width: 120px; height: 120px; }
+.ring.r2 { width: 88px; height: 88px; animation-duration: 9s; animation-direction: reverse; }
+.ring.r3 { width: 58px; height: 58px; animation-duration: 6s; }
+@keyframes spin { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+.bloom {
+  font-size: 34px;
+  animation: pulseBloom 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 16px var(--pink));
+}
+@keyframes pulseBloom { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.18) rotate(8deg); } }
+
+.quote {
+  margin-top: 12px;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+/* Slide 2: Reason Cards */
+.reasons-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 14px;
+  width: 100%;
+}
+.reason-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  padding: 9px 12px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink);
+  box-shadow: 0 4px 12px var(--card-shadow);
+}
+[data-theme="dark"] .reason-card {
+  background: rgba(45, 32, 65, 0.85);
+}
+.reason-card span.icon {
+  font-size: 17px;
+  flex-shrink: 0;
+}
+
+/* Slide 3: Cake */
+.cake-box { margin-bottom: 12px; }
+.cake { position: relative; width: 140px; margin: 0 auto; }
+.candles { display: flex; justify-content: center; gap: 14px; margin-bottom: -4px; position: relative; z-index: 2; }
+.candle { width: 6px; height: 32px; border-radius: 3px; position: relative; cursor: pointer; }
+.candle.c1 { background: linear-gradient(var(--pink), #ff5285); }
+.candle.c2 { background: linear-gradient(var(--lavender), #8a6fd6); }
+.candle.c3 { background: linear-gradient(var(--gold), #f59e0b); }
+
+.flame {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 15px;
+  background: radial-gradient(circle at 50% 70%, #fff3c4, var(--gold) 60%, transparent 75%);
+  border-radius: 50% 50% 50% 50% / 65% 65% 35% 35%;
+  animation: flicker 1.3s ease-in-out infinite;
+  box-shadow: 0 0 12px var(--gold);
+  transition: opacity 0.3s, transform 0.3s;
+}
+@keyframes flicker {
+  0%, 100% { transform: translateX(-50%) scale(1); }
+  50% { transform: translateX(-50%) scale(0.85) rotate(-4deg); }
+}
+.flame.out { opacity: 0; transform: translateX(-50%) scale(0); }
+
+.puff {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  font-size: 14px;
+  opacity: 0;
+  pointer-events: none;
+}
+.puff.go { animation: puffUp 0.9s ease-out forwards; }
+@keyframes puffUp {
+  0% { opacity: 1; transform: translate(-50%, 0) scale(0.5); }
+  100% { opacity: 0; transform: translate(-50%, -45px) scale(1.4) rotate(30deg); }
+}
+
+.tier {
+  background: linear-gradient(180deg, #ffc2d9, var(--pink));
+  border-radius: 10px 10px 4px 4px;
+  box-shadow: inset 0 -6px 12px rgba(0, 0, 0, 0.08), 0 8px 20px var(--card-shadow);
+}
+.tier1 { height: 32px; width: 100%; }
+.tier2 { height: 28px; width: 118%; margin-left: -9%; margin-top: 2px; background: linear-gradient(180deg, #e2d1ff, var(--lavender)); }
+.tier3 { height: 26px; width: 136%; margin-left: -18%; margin-top: 2px; background: linear-gradient(180deg, #ffe6b0, var(--gold)); }
+
+.wish-hint {
+  font-size: 12px;
+  color: var(--ink-dim);
+  font-weight: 600;
+  margin-top: 8px;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+/* Slide 4: Finale */
+.hearts-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 12px 0;
+  font-size: 20px;
+}
+.hearts-row span { animation: pop 0.6s cubic-bezier(.34, 1.56, .64, 1) both; }
+.hearts-row span:nth-child(1) { animation-delay: 0.2s; }
+.hearts-row span:nth-child(2) { animation-delay: 0.3s; }
+.hearts-row span:nth-child(3) { animation-delay: 0.4s; }
+.hearts-row span:nth-child(4) { animation-delay: 0.5s; }
+.hearts-row span:nth-child(5) { animation-delay: 0.6s; }
+@keyframes pop {
+  0% { transform: scale(0) rotate(-20deg); opacity: 0; }
+  60% { transform: scale(1.3) rotate(8deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0); }
+}
+
+.seal-badge {
+  margin-top: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1.2px solid var(--card-border);
+  box-shadow: 0 4px 14px var(--card-shadow);
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  font-weight: 700;
+}
+[data-theme="dark"] .seal-badge {
+  background: rgba(45, 32, 65, 0.9);
+}
+.seal-badge b { color: var(--pink); font-size: 12px; }
+.seal-badge span.sender { color: var(--lavender); font-weight: 800; letter-spacing: 1.5px; }
+
+.btn-group {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 14px;
+}
+.small-btn {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--ink);
+  border: 1.2px solid var(--card-border);
+  padding: 8px 15px;
+  border-radius: 50px;
+  background: var(--card);
+  cursor: pointer;
+  box-shadow: 0 4px 12px var(--card-shadow);
+  transition: transform 0.2s ease;
+}
+.small-btn:active { transform: scale(0.92); }
+
+/* Bottom Tap Hint */
+.tap-guide {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10.5px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--ink-dim);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+  animation: pulse 2s infinite;
+}
+
+/* Tap Sparkle Particles */
+.tap-sparkle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  font-size: 15px;
+  animation: sparkleFly 0.7s ease-out forwards;
+}
+@keyframes sparkleFly {
+  0% { opacity: 1; transform: translate(0, 0) scale(0.6); }
+  100% { opacity: 0; transform: var(--t) scale(1.15); }
+}
+</style>
 </head>
 <body data-theme="light">
 
-  <!-- Ambient Floating Glows -->
-  <div class="ambient-blobs">
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-    <div class="blob blob-3"></div>
+  <!-- Aurora Lights -->
+  <div class="aurora">
+    <span></span><span></span><span></span><span></span>
   </div>
 
-  <!-- Interactive Fireworks Canvas -->
+  <!-- Background Particle Stickers -->
+  <div id="particles"></div>
+
+  <!-- Fireworks Canvas -->
   <canvas id="fireworksCanvas"></canvas>
 
-  <!-- Top Navigation Bar -->
-  <header class="top-nav">
-    <div class="top-badge">
-      <span class="dot"></span>
-      <span>Muxxy Ji's Day 🌸</span>
-    </div>
-    <div class="nav-controls">
-      <button class="control-btn" id="musicToggleBtn" title="Toggle Music" aria-label="Toggle Music">🔇</button>
-      <button class="control-btn" id="themeToggleBtn" title="Toggle Theme" aria-label="Toggle Theme">🌙</button>
-    </div>
-  </header>
-
-  <!-- Step Progress Tracker -->
-  <div class="step-tracker" id="stepTracker">
-    <div class="step-indicator active"></div>
-    <div class="step-indicator"></div>
-    <div class="step-indicator"></div>
-    <div class="step-indicator"></div>
-    <div class="step-indicator"></div>
+  <!-- Top Pill -->
+  <div class="top-pill">
+    <span class="live-dot"></span>
+    <span>For Muxxy Ji 🌸</span>
   </div>
 
-  <!-- Experience Stage / Chapters -->
-  <main class="app-stage" id="appStage">
+  <!-- Top Controls -->
+  <div class="top-actions">
+    <button class="icon-btn" id="musicBtn" aria-label="Toggle Music" title="Toggle Music">🎵</button>
+    <button class="icon-btn" id="themeBtn" aria-label="Toggle Theme" title="Toggle Theme">🌙</button>
+  </div>
 
-    <!-- CHAPTER 0: The Surprise Box -->
-    <section class="chapter active" data-chapter="0">
-      <div class="glass-panel">
-        <div class="tagline">💌 Special Delivery</div>
-        
-        <div class="gift-card-box" id="giftCardBox" title="Tap to Open!">
-          <div class="gift-halo"></div>
-          <div class="gift-box-art">🎁</div>
-        </div>
+  <!-- Progress Dots -->
+  <div class="progress-wrap" id="progressWrap"></div>
 
-        <h1 class="title-primary">A Birthday Surprise for <span class="highlight">Muxxy Ji</span></h1>
-        <p class="description">Someone special wanted to make sure your day begins with pure joy and love.</p>
-        
-        <div class="sender-pill">
+  <!-- Main Slides Stage -->
+  <main class="stage" id="stage">
+
+    <!-- Slide 0: Gift Intro -->
+    <section class="slide active" data-index="0">
+      <div class="glass-box">
+        <div class="eyebrow">💗 SPECIAL DELIVERY 💗</div>
+        <div class="gift-art" id="giftArt">🎁</div>
+        <h1>Happy Birthday<br><span class="accent">Muxxy Ji!</span></h1>
+        <p class="sub">A special interactive surprise created with pure admiration & joy 🌸</p>
+        <div class="badge-tag">
           From <strong>SANKI</strong> with ♥
         </div>
         <br>
-        <button class="cta-button" id="unwrapBtn">
-          <span>Unwrap The Experience</span>
+        <button class="cta-btn" id="startBtn">
+          <span>Tap to Unwrap</span>
           <span>✨</span>
         </button>
       </div>
     </section>
 
-    <!-- CHAPTER 1: Cosmic Phenomenon (POV) -->
-    <section class="chapter" data-chapter="1">
-      <div class="glass-panel">
-        <div class="tagline">🪐 Cosmic Phenomenon</div>
-
-        <div class="orbit-universe">
-          <div class="orbit-track track-1">
-            <span class="track-planet">✨</span>
-          </div>
-          <div class="orbit-track track-2">
-            <span class="track-planet">🌸</span>
-          </div>
-          <div class="orbit-track track-3">
-            <span class="track-planet">⭐</span>
-          </div>
-          <div class="center-star">🌟</div>
+    <!-- Slide 1: Universe Favourite -->
+    <section class="slide" data-index="1">
+      <div class="glass-box">
+        <div class="eyebrow">🪐 COSMIC TRUTH 🪐</div>
+        <div class="orbit">
+          <div class="ring r1"></div>
+          <div class="ring r2"></div>
+          <div class="ring r3"></div>
+          <div class="bloom">🌸</div>
         </div>
-
-        <h2 class="title-primary">Muxxy Ji, You Are <span class="highlight">Pure Magic</span></h2>
-        <p class="description">In an endless universe of billions of stars, your light shines the brightest. Today, the world celebrates the wonderful human being that you are.</p>
+        <h1>Muxxy Ji, you are literally</h1>
+        <p class="quote">"The universe's favourite creation ✨"</p>
+        <p class="sub" style="font-size:12.5px; margin-top:8px;">Out of 8 billion souls, nobody brings light, fun and warmth quite like you do.</p>
       </div>
     </section>
 
-    <!-- CHAPTER 2: Interactive Compliment Constellation -->
-    <section class="chapter" data-chapter="2">
-      <div class="glass-panel">
-        <div class="tagline">💎 Appreciation Constellation</div>
-        <h2 class="title-primary" style="font-size:26px;">Why You Are <span class="highlight">Unmatched</span></h2>
-        <div class="unlock-hint">✨ Tap each card to unlock your tribute</div>
-
-        <div class="compliments-grid">
-          
-          <div class="compliment-card">
-            <div class="card-icon">🌟</div>
-            <div class="card-content">
-              <h4>Radiant Presence</h4>
-              <p>Your smile effortlessly brings energy and warmth into any conversation.</p>
-            </div>
-            <span class="tap-badge">Tap to read</span>
+    <!-- Slide 2: Why You're Amazing -->
+    <section class="slide" data-index="2">
+      <div class="glass-box">
+        <div class="eyebrow">🎀 WHY YOU'RE AMAZING 🎀</div>
+        <h2 style="font-size:22px;">Reasons You're Unmatched</h2>
+        <div class="reasons-list">
+          <div class="reason-card">
+            <span class="icon">🌟</span>
+            <span>Your smile effortlessly lights up every room</span>
           </div>
-
-          <div class="compliment-card">
-            <div class="card-icon">👑</div>
-            <div class="card-content">
-              <h4>Unwavering Authenticity</h4>
-              <p>You stay completely true to yourself, genuine, hilarious, and deeply caring.</p>
-            </div>
-            <span class="tap-badge">Tap to read</span>
+          <div class="reason-card">
+            <span class="icon">💞</span>
+            <span>The way you care about people is genuinely rare</span>
           </div>
-
-          <div class="compliment-card">
-            <div class="card-icon">🚀</div>
-            <div class="card-content">
-              <h4>Main Character Aura</h4>
-              <p>You make ordinary days memorable and turn everyday moments into fun stories.</p>
-            </div>
-            <span class="tap-badge">Tap to read</span>
+          <div class="reason-card">
+            <span class="icon">✨</span>
+            <span>You turn ordinary everyday talks into pure magic</span>
           </div>
-
-          <div class="compliment-card">
-            <div class="card-icon">🌸</div>
-            <div class="card-content">
-              <h4>The Golden Bond</h4>
-              <p>Sanki deeply treasures your connection, support, jokes, and presence!</p>
-            </div>
-            <span class="tap-badge">Tap to read</span>
+          <div class="reason-card">
+            <span class="icon">🌸</span>
+            <span>The world is simply 1000x brighter with you in it</span>
           </div>
-
         </div>
       </div>
     </section>
 
-    <!-- CHAPTER 3: Interactive 3D Birthday Cake & Candles -->
-    <section class="chapter" data-chapter="3">
-      <div class="glass-panel">
-        <div class="tagline">🎂 Ritual of Celebration</div>
-        <h2 class="title-primary" style="font-size:26px;">Make a Wish, <span class="highlight">Muxxy Ji</span></h2>
-
-        <div class="cake-scene">
-          <div class="cake-structure">
-            <div class="candles-row">
-              <div class="candle-unit c-1" title="Tap to blow out!">
-                <div class="candle-flame"></div>
-                <div class="smoke-puff">💨</div>
-              </div>
-              <div class="candle-unit c-2" title="Tap to blow out!">
-                <div class="candle-flame"></div>
-                <div class="smoke-puff">💨</div>
-              </div>
-              <div class="candle-unit c-3" title="Tap to blow out!">
-                <div class="candle-flame"></div>
-                <div class="smoke-puff">💨</div>
-              </div>
+    <!-- Slide 3: Cake & Candles -->
+    <section class="slide" data-index="3">
+      <div class="glass-box">
+        <div class="eyebrow">🎂 MAKE A WISH 🎂</div>
+        <div class="cake-box">
+          <div class="cake">
+            <div class="candles">
+              <div class="candle c1" data-candle><div class="flame" data-flame></div><div class="puff" data-puff>💨</div></div>
+              <div class="candle c2" data-candle><div class="flame" data-flame></div><div class="puff" data-puff>💨</div></div>
+              <div class="candle c3" data-candle><div class="flame" data-flame></div><div class="puff" data-puff>💨</div></div>
             </div>
-            <div class="cake-tiers">
-              <div class="tier-block tier-top"></div>
-              <div class="tier-block tier-middle"></div>
-              <div class="tier-block tier-bottom"></div>
-              <div class="plate"></div>
-            </div>
+            <div class="tier tier1"></div>
+            <div class="tier tier2"></div>
+            <div class="tier tier3"></div>
           </div>
         </div>
-
-        <div class="wishes-unlocked-banner" id="wishesBanner">
-          ✨ Tap candles one-by-one to release your wishes!
-        </div>
-
-        <button class="cta-button" id="blowCandlesBtn" style="margin-top: 14px; padding: 10px 24px; font-size: 13.5px;">
-          <span>💨 Blow All Candles</span>
-        </button>
+        <h2 style="font-size:22px;">Make a Wish, Muxxy Ji 🌙</h2>
+        <div class="wish-hint" id="wishHint">✨ tap anywhere to blow them out</div>
       </div>
     </section>
 
-    <!-- CHAPTER 4: The Grand Finale Celebration -->
-    <section class="chapter" data-chapter="4">
-      <div class="glass-panel">
-        <div class="finale-crown">👑</div>
-        <div class="tagline">🎉 Grand Celebration</div>
-        <h2 class="title-primary">Happy Birthday, <span class="highlight">Muxxy Ji!</span></h2>
-
-        <div class="wishing-scroll">
-          <p class="quote-lead">
-            "May this milestone year shower you with boundless laughter, unshakeable health, huge wins in everything you pursue, and all the happiness your big heart can hold! Always remain the extraordinary soul you are."
-          </p>
-
-          <div class="signature-seal">
-            <div class="signature-badge">
-              <div class="for-line">Honoring The Legend</div>
-              <div class="name-line">MUXXY JI 🌸</div>
-            </div>
-            <div class="seal-stamp">
-              <span>♥ From Sanki</span>
-            </div>
-          </div>
+    <!-- Slide 4: Finale & Fireworks -->
+    <section class="slide" data-index="4">
+      <div class="glass-box">
+        <div class="eyebrow">🎉 GRAND CELEBRATION 🎉</div>
+        <h1>Happy Birthday<br><span class="accent">Muxxy Ji!</span> 🎂</h1>
+        <p class="quote" style="font-size:13.5px;">
+          "May this year bring you boundless happiness, thrilling adventures, unbreakable health, and every single dream your heart desires! 🌸✨"
+        </p>
+        <div class="hearts-row">
+          <span>💗</span><span>💕</span><span>🎀</span><span>💖</span><span>💗</span>
         </div>
-
-        <div class="finale-actions">
-          <button class="action-pill" id="launchFireworksBtn">
-            <span>🎆 Launch Fireworks</span>
-          </button>
-          <button class="action-pill" id="shareWishesBtn">
-            <span>💌 Reply to Sanki</span>
-          </button>
-          <button class="action-pill" id="replayBtn">
-            <span>↺ Relive Journey</span>
-          </button>
+        <div class="seal-badge">
+          made with <b>♥</b> for Muxxy Ji from <span class="sender">SANKI</span>
+        </div>
+        <div class="btn-group">
+          <button class="small-btn" id="fireworksBtn">🎆 Fireworks</button>
+          <button class="small-btn" id="replayBtn">↺ Replay</button>
         </div>
       </div>
     </section>
 
   </main>
 
-  <!-- Bottom Tap Indicator -->
-  <footer class="stage-footer">
-    <div class="tap-indicator-cue" id="tapCue">
-      <span>tap anywhere to advance</span>
-      <span>→</span>
-    </div>
-  </footer>
+  <!-- Bottom Advance Cue -->
+  <div class="tap-guide" id="tapGuide">tap anywhere →</div>
 
-  <script src="script.js"></script>
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  const progressWrap = document.getElementById('progressWrap');
+  const stage = document.getElementById('stage');
+  const tapGuide = document.getElementById('tapGuide');
+  const themeBtn = document.getElementById('themeBtn');
+  const musicBtn = document.getElementById('musicBtn');
+  const fireworksCanvas = document.getElementById('fireworksCanvas');
+  const ctx = fireworksCanvas.getContext('2d');
+
+  let current = 0;
+  let candlesBlown = false;
+  let finaleTriggered = false;
+
+  // Resize canvas
+  function resizeCanvas() {
+    fireworksCanvas.width = window.innerWidth;
+    fireworksCanvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  // Progress dots setup
+  for (let i = 0; i < total; i++) {
+    const dot = document.createElement('i');
+    progressWrap.appendChild(dot);
+  }
+  function updateProgress() {
+    [...progressWrap.children].forEach((d, i) => {
+      d.classList.toggle('active', i === current);
+      d.classList.toggle('done', i < current);
+    });
+  }
+
+  // Web Audio Music Box
+  let audioCtx = null;
+  let isMusicPlaying = false;
+  let musicTimer = null;
+  let noteIndex = 0;
+
+  function initAudio() {
+    if (!audioCtx) {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (AudioContext) audioCtx = new AudioContext();
+    }
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+  }
+
+  const notes = [
+    { f: 261.63, d: 0.35, p: 0.1 }, // C4
+    { f: 261.63, d: 0.25, p: 0.05 },
+    { f: 293.66, d: 0.6, p: 0.1 },  // D4
+    { f: 261.63, d: 0.6, p: 0.1 },  // C4
+    { f: 349.23, d: 0.6, p: 0.1 },  // F4
+    { f: 329.63, d: 1.0, p: 0.25 }, // E4
+
+    { f: 261.63, d: 0.35, p: 0.1 },
+    { f: 261.63, d: 0.25, p: 0.05 },
+    { f: 293.66, d: 0.6, p: 0.1 },
+    { f: 261.63, d: 0.6, p: 0.1 },
+    { f: 392.00, d: 0.6, p: 0.1 },  // G4
+    { f: 349.23, d: 1.0, p: 0.25 }, // F4
+
+    { f: 261.63, d: 0.35, p: 0.1 },
+    { f: 261.63, d: 0.25, p: 0.05 },
+    { f: 523.25, d: 0.6, p: 0.1 },  // C5
+    { f: 440.00, d: 0.6, p: 0.1 },  // A4
+    { f: 349.23, d: 0.6, p: 0.1 },  // F4
+    { f: 329.63, d: 0.6, p: 0.1 },  // E4
+    { f: 293.66, d: 0.8, p: 0.25 }, // D4
+
+    { f: 466.16, d: 0.35, p: 0.1 }, // Bb4
+    { f: 466.16, d: 0.25, p: 0.05 },
+    { f: 440.00, d: 0.6, p: 0.1 },  // A4
+    { f: 349.23, d: 0.6, p: 0.1 },  // F4
+    { f: 392.00, d: 0.6, p: 0.1 },  // G4
+    { f: 349.23, d: 1.3, p: 0.5 }   // F4
+  ];
+
+  function playTone(freq, dur, type = 'sine', gain = 0.12) {
+    if (!audioCtx || !isMusicPlaying) return;
+    try {
+      const osc = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      g.gain.setValueAtTime(0.001, audioCtx.currentTime);
+      g.gain.exponentialRampToValueAtTime(gain, audioCtx.currentTime + 0.03);
+      g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + dur);
+      osc.connect(g);
+      g.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + dur + 0.05);
+    } catch(e) {}
+  }
+
+  function playNextMelody() {
+    if (!isMusicPlaying) return;
+    const n = notes[noteIndex];
+    playTone(n.f, n.d, 'sine', 0.12);
+    playTone(n.f * 2, n.d * 0.7, 'triangle', 0.04);
+    noteIndex = (noteIndex + 1) % notes.length;
+    musicTimer = setTimeout(playNextMelody, (n.d + n.p) * 1000);
+  }
+
+  function toggleMusic() {
+    initAudio();
+    isMusicPlaying = !isMusicPlaying;
+    if (isMusicPlaying) {
+      musicBtn.textContent = '🎵';
+      musicBtn.style.opacity = '1';
+      playNextMelody();
+    } else {
+      clearTimeout(musicTimer);
+      musicBtn.textContent = '🔇';
+      musicBtn.style.opacity = '0.6';
+    }
+  }
+  musicBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleMusic();
+  });
+
+  // Candle Puff SFX
+  function playPuffSound() {
+    if (!audioCtx) return;
+    try {
+      const bufSize = audioCtx.sampleRate * 0.2;
+      const buf = audioCtx.createBuffer(1, bufSize, audioCtx.sampleRate);
+      const d = buf.getChannelData(0);
+      for (let i = 0; i < bufSize; i++) {
+        d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufSize * 0.25));
+      }
+      const noise = audioCtx.createBufferSource();
+      noise.buffer = buf;
+      const filter = audioCtx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(500, audioCtx.currentTime);
+      filter.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.2);
+      const g = audioCtx.createGain();
+      g.gain.setValueAtTime(0.15, audioCtx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+      noise.connect(filter);
+      filter.connect(g);
+      g.connect(audioCtx.destination);
+      noise.start();
+    } catch(e) {}
+  }
+
+  // Slide Navigation
+  function goTo(index) {
+    if (index < 0 || index >= total) return;
+    slides[current].classList.remove('active');
+    current = index;
+    slides[current].classList.add('active');
+    updateProgress();
+    tapGuide.style.display = current === total - 1 ? 'none' : 'flex';
+
+    if (current === 3) resetCandles();
+    if (current === total - 1 && !finaleTriggered) {
+      finaleTriggered = true;
+      launchFireworksShow();
+    }
+  }
+
+  function next() {
+    initAudio();
+    if (!isMusicPlaying && current === 0) {
+      toggleMusic();
+    }
+    if (current === 3 && !candlesBlown) {
+      blowCandles();
+      return;
+    }
+    if (current < total - 1) goTo(current + 1);
+  }
+
+  function resetCandles() {
+    candlesBlown = false;
+    document.querySelectorAll('[data-flame]').forEach(f => f.classList.remove('out'));
+    document.querySelectorAll('[data-puff]').forEach(p => p.classList.remove('go'));
+    const hint = document.getElementById('wishHint');
+    if (hint) hint.textContent = '✨ tap anywhere to blow them out';
+  }
+
+  function blowCandles() {
+    candlesBlown = true;
+    const flames = document.querySelectorAll('[data-flame]');
+    const puffs = document.querySelectorAll('[data-puff]');
+    const hint = document.getElementById('wishHint');
+    if (hint) hint.textContent = '💖 Wish released to the stars!';
+
+    flames.forEach((f, i) => {
+      setTimeout(() => {
+        f.classList.add('out');
+        puffs[i].classList.add('go');
+        playPuffSound();
+      }, i * 160);
+    });
+    setTimeout(() => goTo(current + 1), 850);
+  }
+
+  stage.addEventListener('click', (e) => {
+    spawnSparkle(e.clientX, e.clientY);
+    next();
+  });
+
+  stage.addEventListener('touchstart', (e) => {
+    if (e.touches && e.touches[0]) {
+      spawnSparkle(e.touches[0].clientX, e.touches[0].clientY);
+    }
+  }, { passive: true });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') next();
+    if (e.key === 'ArrowLeft') goTo(current - 1);
+  });
+
+  document.getElementById('startBtn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    spawnSparkle(window.innerWidth / 2, window.innerHeight / 2);
+    next();
+  });
+
+  document.getElementById('replayBtn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    finaleTriggered = false;
+    goTo(0);
+  });
+
+  document.getElementById('fireworksBtn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    launchFireworksShow();
+  });
+
+  // Theme Toggle
+  themeBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isDark = document.body.getAttribute('data-theme') === 'dark';
+    document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    themeBtn.textContent = isDark ? '🌙' : '☀️';
+  });
+
+  // Floating Particles
+  const particleWrap = document.getElementById('particles');
+  const stickerIcons = ['✨', '🌸', '💗', '⭐', '🎀', '💫', '🧁', '💖'];
+  function spawnParticle() {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.textContent = stickerIcons[Math.floor(Math.random() * stickerIcons.length)];
+    p.style.left = (Math.random() * 90) + 'vw';
+    p.style.fontSize = (12 + Math.random() * 12) + 'px';
+    const dur = 9 + Math.random() * 9;
+    p.style.animationDuration = dur + 's';
+    particleWrap.appendChild(p);
+    setTimeout(() => p.remove(), dur * 1000);
+  }
+  setInterval(spawnParticle, 500);
+  for (let i = 0; i < 10; i++) setTimeout(spawnParticle, i * 260);
+
+  // Sparkle Burst on Tap
+  const sparkleChars = ['✨', '💫', '⭐', '🎀', '💖', '🌸'];
+  function spawnSparkle(x, y) {
+    if (!x || !y) return;
+    for (let i = 0; i < 6; i++) {
+      const s = document.createElement('div');
+      s.className = 'tap-sparkle';
+      s.textContent = sparkleChars[Math.floor(Math.random() * sparkleChars.length)];
+      s.style.left = x + 'px';
+      s.style.top = y + 'px';
+      const angle = (Math.PI * 2 * i) / 6 + Math.random() * 0.5;
+      const dist = 35 + Math.random() * 30;
+      const tx = Math.cos(angle) * dist;
+      const ty = Math.sin(angle) * dist;
+      s.style.setProperty('--t', `translate(${tx}px, ${ty}px)`);
+      document.body.appendChild(s);
+      setTimeout(() => s.remove(), 700);
+    }
+  }
+
+  // Physics Fireworks Engine
+  let fireworks = [];
+  const colors = ['#ff6b95', '#b08fe6', '#f59e0b', '#10b981', '#ffffff', '#ff85ab'];
+  class FireworkParticle {
+    constructor(x, y, color) {
+      this.x = x;
+      this.y = y;
+      this.color = color;
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 2 + Math.random() * 5.5;
+      this.vx = Math.cos(angle) * speed;
+      this.vy = Math.sin(angle) * speed;
+      this.alpha = 1;
+      this.decay = 0.015 + Math.random() * 0.02;
+      this.gravity = 0.07;
+      this.size = 2.5 + Math.random() * 2.5;
+    }
+    update() {
+      this.vx *= 0.98;
+      this.vy *= 0.98;
+      this.vy += this.gravity;
+      this.x += this.vx;
+      this.y += this.vy;
+      this.alpha -= this.decay;
+    }
+    draw(ctx) {
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, this.alpha);
+      ctx.fillStyle = this.color;
+      ctx.shadowBlur = 8;
+      ctx.shadowColor = this.color;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  function createFireworkBurst(x, y) {
+    const col = colors[Math.floor(Math.random() * colors.length)];
+    for (let i = 0; i < 45; i++) {
+      fireworks.push(new FireworkParticle(x, y, col));
+    }
+  }
+
+  function launchFireworksShow() {
+    for (let i = 0; i < 6; i++) {
+      setTimeout(() => {
+        createFireworkBurst(
+          window.innerWidth * (0.2 + Math.random() * 0.6),
+          window.innerHeight * (0.2 + Math.random() * 0.4)
+        );
+      }, i * 280);
+    }
+  }
+
+  function animateFireworks() {
+    ctx.clearRect(0, 0, fireworksCanvas.width, fireworksCanvas.height);
+    for (let i = fireworks.length - 1; i >= 0; i--) {
+      fireworks[i].update();
+      fireworks[i].draw(ctx);
+      if (fireworks[i].alpha <= 0) {
+        fireworks.splice(i, 1);
+      }
+    }
+    requestAnimationFrame(animateFireworks);
+  }
+  requestAnimationFrame(animateFireworks);
+
+  updateProgress();
+</script>
+
 </body>
 </html>
